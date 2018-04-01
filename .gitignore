@@ -1,0 +1,7 @@
+rs-api/target/
+rs-dao/rs-dao.iml
+rs-api/rs-api.iml
+rs-dao/target/surefire-reports/TEST-cz.ucl.jee.AppTest.xml
+rs-dao/target/
+rs.iml
+.idea/
