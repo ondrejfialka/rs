@@ -57,7 +57,11 @@ public class StorageService {
 	@Path("/items/{code}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Item getItem(@PathParam("code") Long code){
-		return dao.getItem(code);
+		Item item = dao.getItem(code);
+		if (item == null) {
+			throw new NotFoundException();
+		}
+		return item;
 	}
 	
 	@GET

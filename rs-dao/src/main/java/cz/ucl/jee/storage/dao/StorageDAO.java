@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
 
 import cz.ucl.jee.storage.entities.Item;
 import cz.ucl.jee.storage.entities.ItemFilter;
@@ -17,17 +18,15 @@ import cz.ucl.jee.storage.entities.ItemFilter;
 public class StorageDAO {
 
     @Inject
-	@Default
-    EntityManager em;
+	EntityManager em;
 
+    @Transactional
 	public Item storeItem(Item item){
-		em.getTransaction().begin();
 		em.persist(item);
-		em.getTransaction().commit();
-		em.close();
 		return item;
 	}
-	
+
+	@Transactional
 	public Item storeItem(Item item, Long code){
 		
 		Item foundItem = em.find(Item.class, code);
@@ -35,10 +34,9 @@ public class StorageDAO {
 			foundItem.setName(item.getName());
 			foundItem.setDescription(item.getDescription());
 			foundItem.setWeight(item.getWeight());
-			em.getTransaction().begin();
+
 			em.persist(foundItem);
-			em.getTransaction().commit();
-			em.close();
+
 			item.setCode(foundItem.getCode());
 			return foundItem;
 		}
@@ -59,14 +57,13 @@ public class StorageDAO {
 		List<Item> items = query.getResultList();
 		return items;
 	}
-	
+
+	@Transactional
 	public boolean removeItem(Long code){
 		Item foundItem = em.find(Item.class, code);
-		if (foundItem != null){			
-			em.getTransaction().begin();
+		if (foundItem != null){
+
 			em.remove(foundItem);
-			em.getTransaction().commit();
-			em.close();		
 			return true;
 		}
 		return false;

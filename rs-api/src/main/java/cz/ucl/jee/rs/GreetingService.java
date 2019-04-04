@@ -17,7 +17,7 @@ public class GreetingService {
 	
 	@GET
 	@Path("/greet/long")
-	@Produces("application/json")
+	@Produces(MediaType.APPLICATION_JSON)
 	public Greeting greetLong() {
 		Greeting greeting = new Greeting();
 		greeting.setGreeting("Hello");
